@@ -9,21 +9,22 @@ COMPANY_METAS_FILE = os.getenv("COMPANY_METAS_FILE")
 JOB_METAS_FILE = os.getenv("JOB_METAS_FILE")
 CSV_OUTPUT_FILE = os.getenv("CSV_OUTPUT_FILE")
 
-def add_job_id(job_id, jobs_dict):
+
+def add_job_id(job_id: int, jobs_dict: dict) -> None:
     try:
         jobs_dict["Job_id"].append(job_id)
     except (IndexError, KeyError):
         jobs_dict["Job_id"].append(None)
 
 
-def add_job_title(job_id, jobs_dict, json_data_job):
+def add_job_title(job_id: int, jobs_dict: dict, json_data_job: dict) -> None:
     try:
         jobs_dict["Job_title"].append(json_data_job[job_id]["data"]["title"])
     except (IndexError, KeyError):
         jobs_dict["Job_title"].append(None)
 
 
-def add_company_type(job_id, jobs_dict, json_data_company):
+def add_company_type(job_id: int, jobs_dict: dict, json_data_company: dict) -> None:
     try:
         jobs_dict["Company_type"].append(
             json_data_company[job_id]["included"][1]["name"]
@@ -32,7 +33,7 @@ def add_company_type(job_id, jobs_dict, json_data_company):
         jobs_dict["Company_type"].append(None)
 
 
-def add_job_description(job_id, jobs_dict, json_data_job):
+def add_job_description(job_id: int, jobs_dict: dict, json_data_job: dict) -> None:
     try:
         jobs_dict["Job_description"].append(
             json_data_job[job_id]["data"]["description"]["text"]
@@ -41,7 +42,7 @@ def add_job_description(job_id, jobs_dict, json_data_job):
         jobs_dict["Job_description"].append(None)
 
 
-def add_company_name(job_id, jobs_dict, json_data_company):
+def add_company_name(job_id: int, jobs_dict: dict, json_data_company: dict) -> None:
     try:
         jobs_dict["Company_name"].append(
             json_data_company[job_id]["included"][2]["name"]
@@ -50,7 +51,7 @@ def add_company_name(job_id, jobs_dict, json_data_company):
         jobs_dict["Company_name"].append(None)
 
 
-def add_company_url(job_id, jobs_dict, json_data_job):
+def add_company_url(job_id: int, jobs_dict: dict, json_data_job: dict) -> None:
     try:
         if "url" in json_data_job[job_id]["included"][0]:
             jobs_dict["Company_url"].append(json_data_job[job_id]["included"][0]["url"])
@@ -60,7 +61,7 @@ def add_company_url(job_id, jobs_dict, json_data_job):
         jobs_dict["Company_url"].append(None)
 
 
-def add_company_desc(job_id, jobs_dict, json_data_company):
+def add_company_desc(job_id: int, jobs_dict: dict, json_data_company: dict) -> None:
     try:
         jobs_dict["Company_description"].append(
             json_data_company[job_id]["included"][2]["description"]
@@ -69,7 +70,7 @@ def add_company_desc(job_id, jobs_dict, json_data_company):
         jobs_dict["Company_description"].append(None)
 
 
-def add_employee_no(job_id, jobs_dict, json_data_company):
+def add_employee_no(job_id: int, jobs_dict: dict, json_data_company: dict) -> None:
     try:
         jobs_dict["No_of_emp"].append(
             json_data_company[job_id]["included"][2]["employeeCount"]
@@ -78,9 +79,10 @@ def add_employee_no(job_id, jobs_dict, json_data_company):
         jobs_dict["No_of_emp"].append(None)
 
 
-def access_and_append(job_ids: list[int], jobs_dict: dict, json_data_company, json_data_job):
+def access_and_append(
+    job_ids: int, jobs_dict: dict, json_data_company: dict, json_data_job: dict
+) -> dict:
     for job_id in job_ids:
-
         add_job_id(job_id, jobs_dict)
 
         add_job_title(job_id, jobs_dict, json_data_job)
@@ -99,8 +101,7 @@ def access_and_append(job_ids: list[int], jobs_dict: dict, json_data_company, js
     return jobs_dict
 
 
-def load_data_from_files():
-    
+def load_data_from_files() -> tuple[list[int], dict, dict]:
     if JOB_IDS_FILE is None or COMPANY_METAS_FILE is None or JOB_METAS_FILE is None:
         raise Exception("One or more required environment variables are not defined.")
 
@@ -117,10 +118,10 @@ def load_data_from_files():
     return job_ids, json_data_company, json_data_job
 
 
-def save(jobs_dict):
+def save(jobs_dict: dict) -> None:
     jobs_df = pd.DataFrame.from_dict(jobs_dict)
 
-    jobs_df.to_csv(CSV_OUTPUT_FILE+"jobs_df.csv", index=False)
+    jobs_df.to_csv(CSV_OUTPUT_FILE + "jobs_df.csv", index=False)
 
 
 def main():
