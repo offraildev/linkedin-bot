@@ -10,7 +10,7 @@ from request_scripts.job_description import request_job_description
 
 
 load_dotenv()
-JOB_IDS_FILE = os.getenv("JOB_IDS_FILE")
+JOB_IDS = os.getenv("JOB_IDS")
 JOB_METAS = os.getenv("JOB_METAS")
 EXTRACT_JOB_DESC_LOG = os.getenv("EXTRACT_JOB_DESC_LOG")
 
@@ -40,5 +40,5 @@ def get_args():
 
 if __name__ == "__main__":
     args = get_args()
-    job_ids = list(map(int, Path(JOB_IDS_FILE).read_text().splitlines()))
+    job_ids = list(map(int, Path(JOB_IDS).read_text().splitlines()))
     extract_job_description(job_ids, args.sleep_time)

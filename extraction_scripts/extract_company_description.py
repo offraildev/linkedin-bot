@@ -9,7 +9,7 @@ from loggers import log_message
 from request_scripts.company_description import request_company_description
 
 load_dotenv()
-JOB_IDS_FILE = os.getenv("JOB_IDS_FILE")
+JOB_IDS = os.getenv("JOB_IDS")
 COMPANY_METAS = os.getenv("COMPANY_METAS")
 EXTRACT_COMPANY_DESC_LOG = os.getenv("EXTRACT_COMPANY_DESC_LOG")
 
@@ -39,5 +39,5 @@ def get_args():
 
 if __name__ == "__main__":
     args = get_args()
-    job_ids = list(map(int, Path(JOB_IDS_FILE).read_text().splitlines()))
+    job_ids = list(map(int, Path(JOB_IDS).read_text().splitlines()))
     extract_company_description(job_ids, args.sleep_time)

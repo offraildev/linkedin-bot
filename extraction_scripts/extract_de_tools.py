@@ -12,7 +12,7 @@ from loggers import log_message_with_traceback
 
 load_dotenv()
 DE_TOOLS_LOG = os.getenv("DE_TOOLS_LOG")
-JOBS_DATAFRAME = os.getenv("JOBS_DATAFRAME")
+JOBS_PROCESSED = os.getenv("JOBS_PROCESSED")
 DE_TOOLS_OUT = os.getenv("DE_TOOLS_OUT")
 
 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     args = get_args()
 
     llm = Ollama(model=args.llm_type)
-    jobs_df = pd.read_csv(JOBS_DATAFRAME)
+    jobs_df = pd.read_csv(JOBS_PROCESSED)
 
     process_and_save(jobs_df, start_idx=args.start_idx)
     print("Processing Completed!!!!!!!!")
