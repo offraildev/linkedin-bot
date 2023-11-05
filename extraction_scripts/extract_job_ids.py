@@ -1,13 +1,12 @@
 import os
 import time
 import argparse
-from datetime import datetime
 from dotenv import load_dotenv
 from loggers import log_message
 from request_scripts.job_ids import request_job_ids
 
 load_dotenv()
-JOB_IDS_FILE = os.getenv("JOB_IDS_FILE")
+JOB_IDS = os.getenv("JOB_IDS")
 EXTRACT_JOB_IDS_LOG = os.getenv("EXTRACT_JOB_IDS_LOG")
 
 
@@ -55,4 +54,4 @@ def get_args():
 
 if __name__ == "__main__":
     args = get_args()
-    extract_job_ids(JOB_IDS_FILE)
+    extract_job_ids(JOB_IDS)
